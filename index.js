@@ -2,12 +2,18 @@ const http = require('http');
 const express = require('express');
 const socketio = require('socket.io');
 const cors = require('cors');
+const path = require("path")
+const app = express()
 
+app.use(express.static(path.join(__dirname, 'build')))
 const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
 
+app.get('/', function(req,res){
+  res.sendFile(path.join(__dirname, 'build', 'index.html'))
+})
 const router = require('./router');
 
-const app = express();
+
 const server = http.createServer(app);
 const io = socketio(server);
 
